@@ -1,0 +1,18 @@
+description: WS2812 LED strip using GPIO
+
+compatible: "worldsemi,ws2812"
+
+include: ["base.yaml", "led-strip.yaml"]
+
+properties:
+  data-gpios:
+    type: phandle-array
+    required: true
+
+  chain-length:
+    type: int
+    required: true
+
+  color-order:
+    type: string
+    default: "GRB"
