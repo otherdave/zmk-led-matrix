@@ -5,6 +5,14 @@
 
 #define NUM_LEDS 60
 
+#if DT_NODE_EXISTS(DT_NODELABEL(led_strip))
+#define HAS_LED_STRIP 1
+#else
+#define HAS_LED_STRIP 0
+#endif
+
+#if HAS_LED_STRIP
+
 static const struct device *strip;
 static struct led_rgb pixels[NUM_LEDS];
 
@@ -64,3 +72,5 @@ void led_log_test_thread(void *p1, void *p2, void *p3) {
 
 K_THREAD_DEFINE(led_log_id, 1024, led_log_test_thread, NULL, NULL, NULL, 10, 0,
                 0);
+
+#endif
