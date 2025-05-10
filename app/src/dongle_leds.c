@@ -12,28 +12,36 @@ static void boot_show_pattern() {
 
   memset(pixels, 0, sizeof(pixels));
 
-  int rc = 0; 
+  int rc = 0;
+  int row = 0;
+  int rowIdx = 0; 
 
   while (1) {
+    if (row >= 10)
+        row = 0;
+
+    // Everything is kinda tealish?
     for (int i = 0; i < NUM_LEDS; i++) {
-      pixels[i].r = 10;
+      pixels[i].r = 0;
+      pixels[i].g = 3;
+      pixels[i].b = 3;
+    }
+
+    // The row we're on is red
+    rowIdx = row * 6;
+    for(int i = rowIdx; i < rowIdx + 6; ++i)
+    { 
+      pixels[i].r = 4;
       pixels[i].g = 0;
       pixels[i].b = 0;
     }
+     
     rc = led_strip_update_rgb(strip, pixels, NUM_LEDS);
     printk("led_strip_update_rgb() returned %d\n", rc);
-    k_sleep(K_SECONDS(3));
-
-    for (int i = 0; i < NUM_LEDS; i++) {
-      pixels[i].r = 0;
-      pixels[i].g = 0;
-      pixels[i].b = 10;
-    }
-    rc = led_strip_update_rgb(strip, pixels, NUM_LEDS);
-    printk("led_strip_update_rgb() returned %d\n", rc);
-    k_sleep(K_SECONDS(3));
+    k_sleep(K_SECONDS(1));
 
     printk("Doing it again....\n");
+    row++;
   }
 }
 
